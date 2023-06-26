@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+</head>
+
+<body>
+  
+  <button style = "border: none; background: none;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+  <div class="container" style="padding-top: 100px;">
+    <p style="text-align: center; color: red; ">Reset your PicArt Password</p>
+    <form action="/reset/<%=user._id %>" method="post" style="margin: auto;width: 30vw;">
+      <div class="mb-3" style="width: 100%;">
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password" style="color:#6a6a6a"
+          placeholder="Password">
+      </div>
+      <button class="btn btn-dark" style="width: 100%;">Reset Password</button>
+    </form>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+</html>

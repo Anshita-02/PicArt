@@ -1,0 +1,122 @@
+<%include ./partials/header.ejs %>
+
+<button style = "border: none; background: none; display: inline;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+<h3 style="text-align: center; margin: 10px 5px; margin-top: 30px;">Boards Created</h3>
+    
+<div class="con p-3 ">
+    <div class="card-holder d-flex" style="gap: 20px; flex-wrap: wrap;">
+      <% if(uploadedUser.board.length>0){ %>
+        <% board_arr.forEach(function(board){ %>
+          <div class="img-card" style="height: 100%; border-radius: 20px; position: relative;">
+            <img src="/image/<%= board.img %>" style="height: 300px; width: 200px; border-radius:20px ;">
+            <h6 class="mb-0">
+              <% if(user.username===uploadedUser.username){ %>
+                  <a href="/<%= uploadedUser.username %>/<%= board.name %>" style = "text-decoration: none; color: black;"> <%= board.name %></a>
+                <% }else {%>
+              <%= board.name %>
+              <% } %>
+                <% if(user.username===uploadedUser.username){ %>
+                  <p
+                    style="text-decoration: none; display: inline;"><i class="ri-delete-bin-5-fill delete-board"
+                      style=" color:black; margin-left: 20px;" 
+                      data-link="/delete/board/<%= board.name %>"
+                      title="Delete complete board"></i></p>
+                  <% } %>
+            </h6>
+            <small style="font-size: 15px; font-weight: 500;">
+              <%= board.size %> pin
+            </small>
+
+          </div>
+          <%}) %>
+            <% }else{ %>
+              <p>no board yet created</p>
+              <% } %>
+    </div>
+  </div>
+  </div>
+
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+  <script>
+   
+    document.querySelector("body").addEventListener("click", function(e){
+      console.log(e.target);
+      if(e.target.classList.contains("delete-board")){
+        try{
+          let rimglink = e.target.dataset.link;
+          // console.log(rimglink);
+          // e.target.parentElement.parentElement.parentElement.remove();
+          axios.get(rimglink)
+          .then(function(){
+            e.target.parentElement.parentElement.parentElement.remove();
+          })
+        }catch(error){
+          alert("something went wrong!");
+        }
+      }
+    })
+
+    var nav = document.querySelector(".username").textContent;
+    var currentImageSection = 0;
+    async function getNewImages()
+   {
+    var clutter = '';
+    currentImageSection++
+   await axios.get(`/moreboards/<%= uploadedUser.username%>/${currentImageSection}`)
+    .then(function(boards){
+      var newboards = boards.data.board_arr;
+      var liker = boards.data.user;
+      // console.log(newboards);
+      // console.log(liker);
+      if(typeof newboards === "object"){
+      newboards.forEach(function(image){
+        clutter+=` <div class="card-holder d-flex" style="gap: 20px; flex-wrap: wrap;">
+          <div class="img-card" style="height: 100%; border-radius: 20px; position: relative;">
+            <img src="/image/${image.img}" style="height: 300px; width: 200px; border-radius:20px ;">
+            <h6 class="mb-0"> 
+               ${nav === liker.username?
+                  `<a href="/${liker.username}/${image.name}" style="text-decoration: none; color: black;">${image.name}</a>`
+                  :
+                  image.name
+               }
+               ${nav === liker.username?
+                  `<p style="text-decoration: none; display: inline"><i class="ri-delete-bin-5-fill delete-board" data-link="/delete/board/${image.name}" style=" color:black; margin-left: 20px;" title="Delete complete board"></i></p>`
+                  :
+                  ""
+               }
+            </h6>
+            <small style="font-size: 15px; font-weight: 500;">
+              ${image.size} pin
+            </small>
+          </div>`
+        })
+      }
+      
+    var cardHolderDimensions = document.querySelector('.card-holder').getBoundingClientRect()
+    document.querySelector('.card-holder').innerHTML+=clutter;
+    document.querySelector('.card-holder').style.top = cardHolderDimensions.top + 'px'
+  }) }
+    
+      gsap.to(".con",{
+        scrollTrigger:{
+      trigger: ".con",
+      scroller:"body",
+      start: "top 0%",
+      end:"center 50%",
+      // markers: true,
+      scrub:1,
+    },
+    onComplete:()=>{
+        // console.log("pauch gya");
+        getNewImages();
+      }
+      })
+  </script>
+
+  </html>

@@ -1,0 +1,23 @@
+<%include ./partials/header.ejs %>
+<button style = "border: none; background: none;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+  <div class="container ">
+   <div class = "col-md-6 m-auto" >
+      <h1 class = "text-center display-4 my-4">ProfilePic upload</h1>
+      <form action="/upload/profile" method = "post" enctype="multipart/form-data">
+        <div class = "custom-file mb-3">
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Choose File</label>
+            <input class="form-control" type="file" id="file" name="image">
+          </div>
+        </div>
+        <input type="submit" value="Upload profile" class = "btn btn-primary btn-block" style  = "margin: 0 40%;">
+      </form>
+    </div>
+  </div>
+</body>
+<script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+></script>
+</html>

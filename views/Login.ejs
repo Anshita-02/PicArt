@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../stylesheets/signup.css" />
+    <title>PicArt</title>
+  </head>
+  <body>
+    <button style = "border: none; background: none;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+    <div class="signup">
+      <div id="left" class="d-flex justify-content-center align-items-center">
+        <div class="card" >
+          <div class="top-part">
+            <h1>PicArt</h1>
+            <!-- <img src="../images/logo.jpg" alt="" id="logo-pic" /> -->
+          </div>
+          <small>Login Your Account</small>
+          <% include ./partials/messages.ejs %>
+          <div class="content-part">
+            <form action="/login" , method="post">
+              <div class="mb-3">
+                <label for="exampleInputUserName" class="form-label"
+                  >Username</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleInputName"
+                  aria-describedby="UserNameHelp"
+                  name="username"
+                  placeholder="@example"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  name="password"
+                  placeholder="************"
+                />
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-warning send"
+                  >Login Account</button
+                >
+                <a href="/forgot" class="text-dark text-decoration-none" style = "display: block; text-align: left;"
+                >Forgot Password?</a
+              >
+                <small
+                  class="m-0 p-0 my-2 opacity-50 w-100"
+                  style="text-align: center"
+                  >OR</small
+                >
+                <a
+                  class="btn btn-outline-primary google mt-3"
+                  href="/login/federated/google"
+                  style="width: 100%"
+                  >Login with Google</a
+                >
+              </div>
+            </form>
+          </div>
+          <div class="down">
+            <small class="newaccount"
+              >Don't have an account?
+              <a href="/signup">Create new Account</a></small
+            >
+
+          </div>
+        </div>
+      </div>
+      <div id="right"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alkatra&display=swap" rel="stylesheet">
+  <style>
+    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+#main {
+  height: 100vh;
+}
+
+.hv {
+  text-decoration: none;
+  color: black;
+}
+
+.hv:hover {
+  background-color: black;
+  color: #fff;
+}
+.container{
+  width: 70%;
+}
+.left {
+  width: 50%;
+  height: 80vh;
+}
+
+.right {
+  position: relative;
+  width: 50%;
+  height: fit-content;
+}
+
+.img-cnt {
+  border-radius: 20px;
+  background-color: #f8f7f7;
+  margin: auto;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.save-btn {
+  border-radius: 50%;
+  position: absolute;
+  top: 5%;
+  right: 9%;
+}
+
+
+.dp {
+  border-radius: 50%;
+  position: absolute;
+  top: 5%;
+  right: 27%;
+  border: 1px solid black;
+}
+
+.info h6{
+  font-family: 'Alkatra', cursive;
+  font-size: 1.2rem;
+  padding-top: 4px;
+}
+
+.info small{
+  font-size: 1rem;
+}
+
+.comment small{
+  font-family: 'Alkatra', cursive; 
+  /* font-size: 1rem; */
+  font-weight:  100 !important;;
+}
+.delete{
+  display: none;
+}
+
+.one-cmnt:hover .delete{
+  display: inline;
+}
+
+.comment-box{
+  margin-bottom: 20px;
+  height: 30vh;
+}
+
+.cmt-box{
+  margin-bottom: 20px;
+}
+.comment-box::-webkit-scrollbar{
+  display: none;
+}
+
+.board-box::-webkit-scrollbar{
+  display:none ;
+}
+@media (max-width:995px){
+  .save-btn{
+    top: 28%;
+    right: 8%;
+  } 
+  
+  .dp{
+    top: 28%;
+    right:30%;
+  }
+}
+
+@media (max-width:820px) {
+  .left {
+    width: 100%;
+    height: 100%;
+  }
+
+  .right {
+    width: 100%;
+    height: 100%;
+  }
+
+  .save-btn{
+    right: 8%;
+  } 
+  
+  .dp{
+    right:25%;
+  }
+}
+
+@media (max-width:500px){
+  .container{
+    width: 100%;
+  }
+  .save-btn{
+    width: 20%;
+    right: 0%;
+    top: 20%;
+  }
+  .dp{
+    top:30%;
+    right: 0%;
+  }
+}
+@media (max-width:300px){
+  *{
+    font-size: 5vw;
+  }
+  .container{
+    width: 100%;
+  }
+  .save-btn{
+    width: 20%;
+    right: 0%;
+    top: 25%;
+  }
+  .dp{
+    top:15%;
+    right: 0%;
+  }
+
+}
+  </style>
+</head>
+
+<body>
+  <div class="modal fade board-modal" id="staticBackdropboard" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel" style="text-align: center;">Create Board</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex" style="gap: 20px;">
+          <img src="/image/<%= image.name %>" alt="" style="width: 250px;">
+          <input type="text" name="board" class="create-ip" placeholder="board Name"
+            style="width: 250px; height: 50px; border-radius: 15px; padding: 10px;">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary create-btn">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid d-flex" style="align-items: center; gap: 40px;">
+        <a class="navbar-brand" href="/uploadStuff/1">PicArt</a>
+        <div class="d-flex" style=" justify-content: space-between; align-items: center;">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse nav-clp" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex" style="gap: 7vw;">
+            <li class="nav-item mb-1 me-5 pt-2">
+              <a class="hv" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Upload Image
+              </a>
+            </li>
+
+            <!-- <div class = "d-flex" style = "gap: 5vw; align-items: center;"> -->
+            <li class="nav-item mb-1 me-5 mx-lg-3">
+              <form method="post" action="/search" class="d-flex" role="search"
+                style="position: relative; width: 35vw;">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search"
+                  style="width: 35vw; padding-left: 8%;">
+                <button type="submit"
+                  style="position: absolute; left: 3%; top: 13%; text-decoration: none; background-color: transparent; border: none; cursor: pointer; height: 100%;">
+                  <i class="ri-search-2-line" style="position: absolute;top: 13%; cursor: pointer;"></i></button>
+              </form>
+            </li>
+            <li class="nav-item mb-1 me-5">
+              <div class="d-flex" style="align-items: center;">
+                <a href="/user/<%= user.username%>" style="color: black; text-decoration: none;">
+                  <%= user.username%>
+                </a>
+                <!-- <a href="/logout" class = "btn btn-danger">Logout</a> -->
+
+                <div class="dropdown" style="outline: none;">
+                  <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                    style="outline: none;">
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/upload/profile">Upload Profile Pic</a></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                  </ul>
+                </div>
+            </li>
+          </ul>
+          <!-- </div> -->
+        </div>
+      </div>
+
+    </nav>
+    <button style = "border: none; background: none;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+    <div class="container d-flex mt-1 img-cnt ">
+      <div class="left">
+        <img src="/image/<%= image.name %>" alt="" style="width: 80%; height: 90%;">
+      </div>
+      <div class="right">
+       <span> <a href="" data-link="/image/<%= image.name %>" class="btn btn-danger save-btn">Save</a></span>
+        <div class="dropdown drop-down dp">
+          <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%;">
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 20vw">
+            <li>
+              <p class="dropdown-item atw" data-link="<%= image._id%>" style="cursor: pointer; margin-bottom: 0px;">Like</p>
+            </li>
+            <hr>
+            <div class = "board-box" style="overflow: auto; padding: 0 10px; margin-bottom: 20px; height: 100px;">
+              <ul style = "padding-left: 1rem">
+                <% if(user.board.length>0){ %>
+                  <h6>Your boards</h6>
+                  <% user.board.forEach(function(board){ %>
+              <li class="d-flex board" style="justify-content: space-between; align-items: center;">
+                <p>
+                  <%= board %>
+                </p>
+                <span> <p class="btn btn-danger save-btns board-save" data-link = "<%= board %>" style=" border-radius: 50%;">Save</p></span>
+              </li>
+              <% }) %>
+                <% } %>
+            </ul >
+            </div>
+            <li class="dropdown-item mt-4" style="cursor: pointer; position: fixed; bottom: 0; " data-bs-toggle="modal"
+              data-bs-target="#staticBackdropboard">
+              + Add to board
+            </li>
+        </div>
+        <div class="info" class="height:100%">
+          <div class="d-flex" style="align-items:flex-start;  gap: 10px;">
+            <h6 >Uploaded by:</h6>
+            <small>
+              <%= image.user.username %>
+            </small>
+          </div>
+          <div class="d-flex" style="align-items:flex-start; gap: 10px;">
+            <h6>Uploaded on:</h6>
+            <small>
+              <%= upload_Date %>
+            </small>
+          </div>
+          <div class="d-flex" style="align-items:flex-start; gap: 10px;">
+            <h6>Image size:</h6>
+            <small>
+              <%= filesize %>MB
+            </small>
+          </div>
+          <div class="d-flex" style="align-items:flex-start; gap: 10px;">
+            <h6>Tag:</h6>
+            <small>
+              <%= image.desc%>
+            </small>
+          </div>
+          <div class="d-flex" style="align-items:flex-start; gap: 2px;">
+            <h6 class = "cmt-length">
+              <%= image.wishlisted.length%>
+            </h6>
+            <i class="ri-heart-fill" style="color: red;"></i>
+          </div>
+        </div>
+        <div class="comment" style=" height: 50%; margin-top: 20px; width: 80%;">
+          <h2>Comments..</h2>
+          <% if(image.comments.length>0){ %>
+            <div class="comment-box" style="overflow: auto;">
+              <% image.comments.forEach(function(cmt){%>
+
+                <div class = "one-cmnt">
+                <div class="d-flex" style="align-content: center; gap: 10px;">
+                  <h6 class="mb-0" style="font-size:1rem; color: gray;">
+                    <%= cmt.user%>
+                  </h6>
+                  <small>
+                    <%= cmt.cmnt %>
+                  </small>
+                  <%if(cmt.user == user.username){ %>
+                    <!-- <a style = "text-decoration: none; color: black" href='/comment/delete/<%= cmt.id %>'> -->
+                     <a href="/comment/delete/<%= cmt.id %>" style = "text-decoration: none; color: black"><i class="ri-delete-bin-line  delete "></i></a> 
+                   </a> 
+                    <% } %>
+                </div>
+                
+                <span style="text-align: right; font-size: 0.7rem;"><small>
+                    <%= cmt.time %>
+                  </small> </span>   
+                </div>
+             
+                <% }) %>
+            </div>
+            <% }else{ %>
+              <small>No comments yet... Be the first one to comment</small>
+              <% } %>
+        </div>
+        <div class="cmt-box">
+          <h6>Add comment</h6>
+          <!-- <form action="/comment/<%= image._id %>" method="post"> -->
+            <input type="text" name="comment" class="add-cmt-ip" id=""
+              style="width: 80%; border-radius: 10px; padding: 10px;">
+            <button type="submit" class="btn btn-danger add-cmt-btn" style="margin: 2% 25%;"
+              data-link="<%= image._id %>">Upload Comment</button>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+<script>
+  var atw_btn = document.querySelector(".atw");
+  var create_btn = document.querySelector(".create-btn");
+  document.querySelector(".add-cmt-btn").addEventListener("click", function(){
+    var cmt = document.querySelector(".add-cmt-ip").value;
+    document.querySelector(".add-cmt-ip").value = "";
+    var link = document.querySelector(".add-cmt-btn").dataset.link;
+    cmt = cmt.trim();
+    if(cmt && cmt.length>0){
+      axios.post(`/comment/${link}`, {
+        comment:cmt
+      })
+      .then(function(comment){
+         var{cmnt,user} = comment.data;
+          var clutter = '';
+          clutter+=` <div class = "one-cmnt">
+                          <div class="d-flex" style="align-content: center; gap: 10px;">
+                            <h6 class="mb-0" style="font-size:1rem; color: gray">
+                              ${cmnt.user}
+                            </h6>
+                            <small>
+                            ${cmnt.cmnt}
+                            </small>
+                            ${(cmnt.user == user.username)?
+                              `<a href = '/comment/delete/${cmnt._id}' style = "text-decoration: none; color: black"><i class='ri-delete-bin-line  delete'></i></a>`
+                            :""}
+                            </div>
+                          <span style="text-align: right;"><small> ${cmnt.time} </small> </span>
+                     </div>`
+              // console.log(clutter);
+              document.querySelector(".comment-box").innerHTML+=clutter;
+      })
+    }else{
+     alert("Add some comment!");
+    }
+  })
+
+  document.querySelectorAll(".board").forEach(function (elem) {
+    elem.addEventListener("mouseover", function () {
+      elem.querySelector(".save-btns").style.display = "block";
+    })
+    elem.addEventListener("mouseleave", function () {
+      elem.querySelector(".save-btns").style.display = "none";
+    })
+
+    elem.addEventListener("click", async function () {
+      var board = elem.querySelector("p").textContent;
+      await axios.get(`/save/${board}/${atw_btn.dataset.link}`);
+      alert(`Photo saved in ${board} board`);
+    })
+  })
+
+  atw_btn.addEventListener("click", function () {
+    axios.get(`/like/${atw_btn.dataset.link}`)
+    .then(function(length){
+      // console.log(length.data);
+      document.querySelector(".cmt-length").textContent = length.data.length;
+    })
+  })
+
+
+  // =========================================================create new board and save
+  create_btn.addEventListener("click", async function () {
+    var boardname = document.querySelector(".create-ip").value;
+    boardname = boardname.trim();
+    // console.log(boardname);
+    if (boardname.length === 0) {
+      alert("Enter board name!");
+    } else {
+      await axios.post(`/create/board/${atw_btn.dataset.link}`, {
+        board: boardname
+      })
+      document.querySelector(".board-modal").style.display = "none";
+      // document.querySelector("#main").trigger('focus')
+      alert("Board created Successfully! Refresh page to see board name");
+      document.querySelector(".modal-backdrop").style.display = "none"
+    }
+  })
+
+  // ==================================================================to download image
+    var save_btn = document.querySelector(".save-btn");
+    save_btn.addEventListener("click",  function (event) {
+      event.preventDefault();
+      var img_link = save_btn.dataset.link;
+      // /image/6b3be71bf1366897c89284678e926486.jfif
+      try {
+        axios.post("/download", {
+          imageurl: `http://localhost:3000${img_link}`
+        })
+          .then(function () {
+            alert("image downloaded!");
+          })
+
+      } catch (error) {
+        // console.error(error);
+      }
+    })
+</script>
+</html>

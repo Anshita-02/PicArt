@@ -1,0 +1,172 @@
+<%include ./partials/header.ejs %>
+<button style = "border: none; background: none;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+  <div class="con" style="position: relative; padding: 20px 0px 60px 0px; width: 100vw;">
+    <div class="info-box">
+      <h4 style="text-align: center;">
+        <%= uploadedUser.username %>
+      </h4>
+      <div class="circle usercircle">
+        <% if(profileadd){ %>
+          <img src="/profile/image/<%= profileadd %>"
+            style="height: 100%; width: 100%; border-radius: 50%; object-fit: cover; object-position: top;" />
+          <% } else {%>
+            <i class="ri-user-fill"></i>
+            <% } %>
+      </div>
+      
+        <% if(user.username===uploadedUser.username){ %>
+          <span class= "following"><%= user.following.length %> Followers</span>
+          <%}else{ %>
+            <button class="btn btn-danger save-btns follow-btn" data-name = "<%= uploadedUser.username %>"
+            >
+            <% if(uploadedUser.following.indexOf(user._id)  === -1){ %>
+              Follow
+             <%}else{ %>
+              Unfollow
+            <% } %>
+             
+          </button>
+            <%} %>
+    </div>
+    <hr>
+    <div class="uploads" style="padding: 10px 20px;">
+      <h5>
+        <% if(user.username===uploadedUser.username){ %>
+          My Uploads
+          <% }else{ %>
+            Uploaded Photo
+            <% } %>
+      </h5>
+      <div class="d-flex" style="flex-wrap: wrap; align-items: center; gap: 30px;">
+        <% if( uploadedUser.myUploads.length===0){ %>
+          <small>No photos uploaded yet</small>
+          <% }else{ %>
+            <% for(var i=0; i< Math.min(6, uploadedUser.myUploads.length);i++){ %>
+              <div class="img-card"
+                style="border-radius: 20px; background-color: antiquewhite; position: relative; width:200px; height: 300px;">
+                <a href="/file/image/<%= uploadedUser.myUploads[i]._id %>" style="height: 100%;">
+                  <img src="/image/<%= uploadedUser.myUploads[i].name %>"
+                    style="height: 100%; width: 100%; border-radius:20px ;">
+                </a>
+              </div>
+              <% } %>
+                <% if(uploadedUser.myUploads.length>6){ %>
+                  <a href="/<%=uploadedUser.username %>/uploads" class="btn btn-primary"
+                    style="border-radius: 50%;">More</a>
+                  <% } %>
+                    <% } %>
+
+      </div>
+    </div>
+    <hr>
+    <div class="boards" style="padding: 10px 20px;">
+      <h5>
+        <% if(user.username===uploadedUser.username){ %>
+          My Boards
+          <% }else{ %>
+            Boards
+            <% } %>
+      </h5>
+      <div class="d-flex" style="flex-wrap: wrap; align-items: center; gap: 30px;">
+        <% if( uploadedUser.board.length===0){ %>
+          <small>No board created yet</small>
+          <% }else{ %>
+            <% for(var i=0; i< Math.min(6, uploadedUser.board.length);i++){ %>
+              <div class="img-card" style="height: 100%; border-radius: 20px; position: relative;width: 200px; height: 300px;">
+                <a href="/<%= uploadedUser.username %>/<%= uploadedUser.board[i] %>">
+                  <img src="/image/<%= board_arr[i].img %>" style="height: 200px; width: 150px; border-radius:20px ; display: block;" />
+                </a>
+               <span><a href="/<%= uploadedUser.username %>/<%= uploadedUser.board[i] %>"
+                      style="text-decoration: none; color: black; ">
+                      <%= uploadedUser.board[i] %>
+                    </a></span>
+                  <% if(user.username===uploadedUser.username){ %>
+                    <span data-link="/delete/board/<%= uploadedUser.board[i] %>" class="delete-board "
+                      style="text-decoration: none;"><i class="ri-delete-bin-5-fill delete-my-uploads"
+                        style=" color:black; margin-left: 20px; " title="Delete complete board"></i></span>
+                    <% } %>
+                <h6>
+                <small>
+                 <%= board_arr[i].size %> pin
+                </small>
+              </h6>
+              </div>
+              <% } %>
+                <% if(uploadedUser.board.length>6){ %>
+                  <a href="/<%= uploadedUser.username %>/boards" class="btn btn-primary"
+                    style="border-radius: 50%;">More</a>
+                  <% } %>
+                    <% } %>
+      </div>
+    </div>
+    <hr>
+    <div class="wishlist" style="padding: 10px 20px;">
+      <h5>
+        Liked Photos
+      </h5>
+      <div class="d-flex" style="flex-wrap: wrap; align-items: center; gap: 30px;">
+        <% if( uploadedUser.wishlisted.length===0){ %>
+          <small>No photos yet liked</small>
+          <% }else{ %>
+            <% for(var i=0; i< Math.min(6, uploadedUser.wishlisted.length);i++){ %>
+              <div class="img-card"
+                style="border-radius: 20px; background-color: antiquewhite; position: relative; width: 200px; height: 300px;">
+                <a href="/file/image/<%= uploadedUser.wishlisted[i]._id %>" style="height: 100%;">
+                  <img src="/image/<%= uploadedUser.wishlisted[i].name %>"
+                    style="height: 100%; width: 100%; border-radius:20px ;">
+                </a>
+                <% if(user.username===uploadedUser.username){ %>
+                  <p data-link="/remove/wishlist/<%= uploadedUser.wishlisted[i]._id %>" style="text-decoration: none;"><i
+                      class="ri-delete-bin-5-fill delete-my-uploads" style="position: absolute; bottom: 5%; right: 5%; color: #fff;"
+                      title="remove imge from liked photos"></i></a>
+                  <% } %>
+              </div>
+              <% } %>
+                <% if(uploadedUser.wishlisted.length>6){ %>
+                  <a href="/<%= uploadedUser.username %>/likes" class="btn btn-primary"
+                    style="border-radius: 50%;">More</a>
+                  <% } %>
+                    <% } %>
+
+      </div>
+    </div>
+  </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+  <script>
+    let flw = document.getElementsByClassName(".save-btns");
+    console.log(flw);
+    if(flw.length>0){
+    document.querySelector(".save-btns").addEventListener("click", function(){
+      var username = document.querySelector(".save-btns").dataset.name;
+      var text =  document.querySelector(".save-btns").textContent;
+      text = text.trim();
+      axios.post( `/follow/${username}`)
+      .then(function(){
+        // console.log(text);
+        if(text === "Follow")
+        document.querySelector(".save-btns").textContent = "Unfollow";
+        else
+        document.querySelector(".save-btns").textContent = "Follow";
+      })
+    })}
+
+    document.querySelectorAll(".delete-my-uploads").forEach((elem)=>{
+      elem.addEventListener("click", function(e){
+         console.log(e.target.parentElement);
+        let link = e.target.parentElement.dataset.link;
+        // console.log(link);
+        // e.target.parentElement.parentElement.remove();
+        axios.get(link)
+        .then(function(){
+          e.target.parentElement.parentElement.remove();
+        })
+      })
+    })
+
+
+  </script>
+  </html>

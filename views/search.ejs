@@ -1,0 +1,243 @@
+<%include ./partials/header.ejs %>
+<button style = "border: none; background: none;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+  <div class="con p-3 ">
+    <div class="card-holder d-flex" style="gap: 15px; flex-wrap: wrap; margin-top: 30px;">
+      <% if(img_arr.length>0){ %>
+        <% img_arr.forEach(function(img){ %>
+          <div class="card" 
+          style=" height: 100%; border: none; position: relative; padding-top: 0px;">
+            <span> 
+              <a href="" 
+              data-link="<%= img.id %>" 
+              class="btn btn-danger save-btn ul_save_btn"
+                >Save</a></span>
+            <div class="dropdown drop-down ul_dd">
+              <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%;">
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                  <p 
+                  class="dropdown-item download mb-0" 
+                  data-link="<%= img.name%>" 
+                  style="cursor: pointer;">
+                  Download
+                  </p>
+                </li>
+                <li>
+                  <label 
+                  class="dropdown-item" 
+                  for="comment">
+                  Add Comment
+                  </label>
+                </li>
+                <li class="add-cmt">
+                  <input class="mx-1 cmt-ip" 
+                  type="text" 
+                  name="comment" 
+                  placeholder="Comment"
+                  data-link = "<%= img._id%>"
+                  style="border-radius: 10px; "> 
+                </li>
+            </div>
+
+            <a href="/file/image/<%= img._id %>"
+              style="height: 100%; width: 100%;">
+              <img src="/image/<%= img.name %>" class="card-img-top" alt=""
+                style="max-width: 250px; object-fit: cover; border-radius: 20px; max-height: 400px;">
+            </a>
+            <div class="card-body"
+            style="padding-top: 0px;">
+              <small class="mb-0" style = "font-family: 'Roboto Slab', serif; font-size: 1rem;">#<%= img.desc %></small>
+              <div class="d-flex" style="align-items: center;gap: 10px ;">
+                <div class="circle" style="position: relative;">
+                  <% if(img.user.profilepic){ %>
+                    <img src="/profile/image/<%= img.user.profilepic %>"
+                      style="height: 100%; width: 100%; border-radius: 50%; object-fit:cover; object-position: center;" />
+                    <% }else{ %>
+                      <i class="ri-user-fill"
+                        style="font-size: 30px; position: absolute; top: 50%; left: 50%; transform: translate(-50% , -50%);"></i>
+                      <% } %>
+                </div>
+                <small class="mt-0"><a href="/user/<%= img.user.username%>"
+                    style="text-decoration: none; color: black;">
+                    <%= img.user.username %>
+                  </a>
+                </small>
+              </div>
+            </div>
+
+          </div>
+          <%}) %>
+            <% }else{ %>
+              <p>no such image yet uploaded </p>
+              <% } %>
+    </div>
+  </div>
+  </div>
+
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+  <script>
+    //variable declaration
+    var add_cmt_btns = document.querySelectorAll(".add-cmt");
+    var add_cmt_array = [...add_cmt_btns];
+    var elems = document.querySelectorAll(".download")
+    var elem_array = [...elems];
+    var save_btns = document.querySelectorAll(".save-btn");
+    var save_btn_array = [...save_btns];
+
+    var currentImageSection = 0;
+   async function getNewImages()
+   {
+    var clutter = '';
+    currentImageSection++
+    axios.get(`/search/${currentImageSection}`)
+    .then(function(imgs){
+      var newImages = imgs.data.img_arr;
+      // console.log(newImages);
+      if(typeof newImages ==="object" && newImages.length>0){
+      newImages.forEach(function(image){
+        clutter+=`<div class="card" style=" height: 100%; border: none; position: relative; padding-top: 0px; break-inside: avoid;">
+            <span> <a href="" data-link=${image._id} class="btn btn-danger save-btn"
+                style=" border-radius: 50%; position: absolute; top: 2%; right: 12%;">Save</a></span>
+            <div class="dropdown drop-down" style="border-radius: 50%; position: absolute; top: 80%; right: 12%;">
+              <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%;">
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                <li>
+                  <p class="dropdown-item download"  data-link="${image.name}"  style="cursor: pointer;">Download</p>
+                </li>
+                <li><label class="dropdown-item" for="comment">Add Comment</label></li>
+                <li class="add-cmt">
+                  <input 
+                  class="mx-1 cmt-ip" 
+                  type="text" 
+                  name="comment" 
+                  placeholder="Comment"
+                  style="border-radius: 10px; "
+                  data-link= "${image._id}"
+                  >
+
+                </li>
+              </ul>
+            </div>
+
+            <a href="/file/image/${image._id}" style="height: 100%; border-radius:20px">
+              <img src = "/image/${image.name}" class="card-img-top" alt="" style="max-width: 300px; object-fit: cover; max-height: 600px; border-radius:20px">
+            </a>
+            <div class="card-body" style="padding-top: 0px;">
+              <small class="mb-0" style = "font-family: 'Roboto Slab', serif;
+">#${image.desc}</small>
+              <div class="d-flex" style="align-items: center;gap: 10px ;">
+                <div class="circle" style="position: relative;">
+                  ${image.user.profilepic?
+                    "<img src= '/profile/image/'"+ image.user.profilepic + 'style="height: 100%; width: 100%; border-radius: 50%; object-fit:cover; object-position: center;"/>'
+                     :
+                    '<i class="ri-user-fill" style="font-size: 20px; position: absolute; top: 50%; left: 50%; transform: translate(-50% , -50%);"></i>'
+                  }
+                    
+                </div>
+                <small class="mt-0"><a href="/user/${image.user.username}"
+                    style="text-decoration: none; color: black;">
+                    ${image.user.username}
+                  </a>
+                </small>
+              </div>
+            </div>
+
+          </div>`
+      
+        })
+    var cardHolderDimensions = document.querySelector('.card-holder').getBoundingClientRect()
+    document.querySelector('.card-holder').innerHTML+=clutter;
+    document.querySelector('.card-holder').style.top = cardHolderDimensions.top + 'px'
+    }else{
+      alert("Sorry, no more images for this search exist!");
+    }})
+   }
+
+let comment;
+   document.querySelector(".card-holder").addEventListener("click",function(e){
+    // console.log(e.target);
+    if(e.target.classList.contains("save-btn")){
+      // console.log(e.target.dataset.link);
+      event.preventDefault();
+      try{
+        axios.get(`/like/${e.target.dataset.link}`)
+        .then(()=>{
+          // console.log("save krde");
+        })
+      }catch(err){
+        // console.log(err);
+      }
+    }
+    else if(e.target.classList.contains("download")){
+      event.preventDefault();
+        var img_link = e.target.dataset.link;
+        // /image/6b3be71bf1366897c89284678e926486.jfif
+        try {
+          axios.get(`/download/image/${img_link}`)
+        .then(function(){
+          alert("image downloaded!")
+        })
+        } catch (error) {
+          // console.error(error);
+        }
+    }
+    else if(e.target.name== "comment"){
+     e.target.addEventListener("keydown", function(event){
+        if(event.keyCode==13){
+          // console.log(e.target);
+          comment = e.target.value;
+          let imglink = e.target.dataset.link;
+          // console.log(imglink);
+          // console.log(comment);
+          if(comment && comment.length > 0){
+          try{
+              axios.post(`/comment/${imglink}`, {
+                comment: comment
+              })
+              .then(function () {
+                 e.target.value = "";
+                  alert("Comment uploaded successfully...")
+              })
+          }catch(err){
+              // console.log(err);
+          }
+        } else {
+          alert("Add some comment!");
+        }
+        }
+     })
+    }
+   })
+ 
+  
+gsap.to(".con",{
+    scrollTrigger:{
+      trigger: ".con",
+      scroller:"body",
+      start: "top 0%",
+      end:"center 30%",
+       markers: true,
+      scrub:1,
+    },
+    onComplete:()=>{
+         console.log("pauch gya");
+        getNewImages();
+      }
+   })
+
+  </script>
+
+  </html>

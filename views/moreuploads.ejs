@@ -1,0 +1,185 @@
+<%include ./partials/header.ejs %>
+<button style = "border: none; background: none;" onclick="window.history.go(-1)"><img src="https://media.istockphoto.com/id/861685600/vector/back-arrow-icon-soft-green-round-button.jpg?s=170667a&w=0&k=20&c=TJc9Y1agdjZFOnPi8T5LINl6udvhi4q4dfK2WWbMfeE=" alt="Back" style = "width: 30px;"></button>
+  <h3 style="text-align: center; margin: 10px 5px; margin-top: 30px;">Uploaded Photos</h3>
+  <div class="con p-3 ">
+    <div class="card-holder d-flex" style="gap: 15px; flex-wrap: wrap;">
+      <% if(uploadedUser.length>0){ %>
+        <% uploadedUser.forEach(function(img){ %>
+          <div class="card" 
+          style="height: 100%; border: none; position: relative; padding-top: 0px; break-inside: avoid; margin-bottom: 10px;">
+            <span>
+              <a data-link="<%= img.id %>"  class="btn btn-danger save-btn ul_save_btn"
+               >Save</a></span>
+            <div class="dropdown drop-down ul_dd">
+              <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%;">
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li>
+                      <p class="dropdown-item atw download" data-link="<%= img.name%>" style="cursor: pointer;">Download
+                      </p>
+                    </li>
+                    <li><label class="dropdown-item" for="comment">Add Comment</label></li>
+                    <li class="add-cmt"><input class="mx-1 cmt-ip" type="text" name="comment" placeholder="Comment"
+                        style="border-radius: 10px; "  data-link = "<%= img._id%>"> </li>
+              </ul>
+            </div>
+
+            <a href="/file/image/<%= img._id %>" style="height: 100%; width: 100%;">
+              <img src="/image/<%= img.name %>" class="card-img-top" alt=""
+              style="max-width: 250px; object-fit: cover; border-radius: 20px; max-height: 400px;">
+            </a>
+            <small class="mb-0" style = "font-family: 'Roboto Slab', serif; font-size: 1rem;">
+              #<%= img.desc %>
+            </small>
+          </div>
+          <%}) %>
+            <% }else{ %>
+              <p>no image uploaded</p>
+              <% } %>
+    </div>
+  </div>
+  </div>
+
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+  <script>
+  
+    document.querySelector("body").addEventListener("click", function(e){
+   if(e.target.classList.contains("save-btn")){
+      // console.log(e.target.dataset.link);
+      event.preventDefault();
+      try{
+        axios.get(`/like/${e.target.dataset.link}`)
+        .then(()=>{
+          // console.log("save krde");
+        })
+      }catch(err){
+        // console.log(err);
+      }
+    }
+
+    else if(e.target.classList.contains("download")){
+      event.preventDefault();
+        var img_link = e.target.dataset.link;
+        // console.log(img_link);
+        // /image/6b3be71bf1366897c89284678e926486.jfif
+        try {
+          axios.get(`/download/image/${img_link}`)
+        .then(function(){
+          alert("image downloaded!")
+        })
+        } catch (error) {
+          // console.error(error);
+        }
+    }
+    else if(e.target.name== "comment"){
+     e.target.addEventListener("keydown", function(event){
+        if(event.keyCode==13){
+          // console.log("enter key pressed");
+          comment = e.target.value;
+          let imglink = e.target.dataset.link;
+          // console.log(imglink);
+          // console.log(comment);
+          if(comment && comment.length > 0){
+          try{
+              axios.post(`/comment/${imglink}`, {
+                comment: comment
+              })
+              .then(function () {
+                e.target.value="";
+                  alert("Comment uploaded successfully...")
+              })
+          }catch(err){
+              // console.log(err);
+          }
+        } else {
+          alert("Add some comment!");
+        }
+        }
+     })
+    } 
+    })
+    var nav = document.querySelector(".username").textContent;
+    var currentImageSection = 0;
+
+    async function getNewImages()
+   {
+    var clutter = '';
+    currentImageSection++
+    axios.get(`/moreuploads/<%= photos.username%>/${currentImageSection}`)
+    .then(function(imgs){
+      var newImages = imgs.data.uploadedUser;
+      var liker = imgs.data.photos;
+      if(typeof newImages=== "object"){
+      newImages.forEach(function(image){
+        clutter+=`<div class="card" style=" height: 100%; border: none; position: relative; padding-top: 0px; break-inside: avoid;">
+            <span> <a href="" data-link=${image._id} class="btn btn-danger save-btn ul_save_btn">Save</a></span>
+            <div class="dropdown drop-down ul_dd">
+              <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50%;">
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                <li>
+                  <p class="dropdown-item atw download mb-0"  data-link="${image.name}"  style="cursor: pointer;">Download</p>
+                </li>
+                <li><label class="dropdown-item" for="comment">Add Comment</label></li>
+                <li class="add-cmt">
+                  <input 
+                  class="mx-1 cmt-ip" 
+                  type="text" 
+                  name="comment" 
+                  placeholder="Comment"
+                  style="border-radius: 10px; "
+                  data-link= "${image._id}"
+                  >
+
+                </li>
+              </ul>
+            </div>
+
+            <a href="/file/image/${image._id}" 
+            style="height: 100%; width:100%;">
+              <img src = "/image/${image.name}" 
+              class="card-img-top" alt="" 
+              style="max-width: 300px; object-fit: cover; max-height: 400px; border-radius:20px">
+            </a>
+            <small class="mb-0" style = "font-family: 'Roboto Slab', serif; font-size: 1rem;">
+              #${image.desc}
+            </small>
+           </div>`
+        })
+    }
+        var cardHolderDimensions = document.querySelector('.card-holder').getBoundingClientRect()
+    document.querySelector('.card-holder').innerHTML+=clutter;
+    document.querySelector('.card-holder').style.top = cardHolderDimensions.top + 'px'
+     })
+    }
+
+    
+    gsap.to(".con",{
+    scrollTrigger:{
+      trigger: ".con",
+      scroller:"body",
+      start: "top 0%",
+      end:"center 50%",
+      // markers: true,
+      scrub:1,
+    },
+    onComplete:()=>{
+        // console.log("pauch gya");
+         getNewImages();
+      }
+   })
+
+  </script>
+
+  </html>
