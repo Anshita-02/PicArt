@@ -1,0 +1,267 @@
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100vw;
+    }
+
+    #main {
+      width: 100vw;
+      height: 100%;
+    }
+    
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    #page1 {
+      position: relative;
+      width: 100vw;
+      height: 92vh;
+    }
+
+    #page1 .text {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #page1 .text p {
+      font-size: 4vw;
+    }
+
+    #page1 .img-section {
+      position: absolute;
+      top: 50%;
+      width: 100vw;
+      height: 50%;
+    }
+
+    #page1 .img-section div {
+      width: 20%;
+      height: 100%;
+    }
+
+    #page1 .img-section div img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      max-height: 330px;
+    }
+
+    #page2 {
+      width: 100vw;
+      height: 98vh;
+      flex-wrap: wrap;
+    }
+
+    #page2 .left {
+      position: relative;
+      height: 98vh;
+      width: 50%;
+      padding-top: 20px;
+    }
+
+
+    #page2 .left .first img {
+      position: absolute;
+      left: 25%;
+      z-index: 10;
+      border-radius: 15%;
+      object-fit: cover;
+      width: 100%;
+      max-width: 290px;
+    }
+
+    #page2 .left .second img {
+      width: 100%;
+      max-width: 300px;
+      position: absolute;
+      top: 10%;
+      left: 5%;
+      border-radius: 15%;
+      object-fit: cover;
+    }
+
+    #page2 .left .third img {
+      width: 100%;
+      max-width: 290px;
+      border-radius: 15%;
+      position: absolute;
+      top: 20%;
+      left: 48%;
+    }
+
+    #page2 .right {
+      /* position: relative; */
+      height: 98vh;
+      width: 50%;
+    }
+
+    #page2 .right .content {
+      width: 70%;
+      /* position: absolute;
+  top: 50%;
+  left: 50%; */
+      margin: 35% 23%;
+    }
+
+    #page2 .right .content h5,
+    .cnt h5 {
+      font-size: 3vw;
+      color: brown;
+    }
+
+    @media (max-width:1000px) {
+      #page2 .right .content {
+        margin: 25%;
+      }
+
+      .page3-right .cnt {
+        margin: 25%;
+      }
+    }
+
+    #page3 {
+      height: 100vh;
+      width: 100vw;
+      flex-wrap: wrap
+    }
+
+    .page3-left {
+      position: relative;
+      height: 100vh;
+      width: 50%;
+      padding: 10px 20px;
+    }
+
+    .page3-right {
+      height: 100vh;
+      width: 50%;
+    }
+
+    .page3-left .first-img {
+      position: absolute;
+      max-width: 280px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 5%;
+
+    }
+
+    .page3-left .second-img {
+      z-index: 30;
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      max-width: 250px;
+      width: 80%;
+      object-fit: cover;
+      border-radius: 5%;
+    }
+
+    .page3-left .third-img {
+      position: absolute;
+      left: 50%;
+      max-width: 300px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 5%;
+    }
+
+    .page3-right {
+      position: relative;
+    }
+
+    .cnt {
+      width: 60%;
+      margin: 35% 23%
+    }
+
+    #about {
+      padding: 50px;
+      background-color: black;
+      color: #fff;
+    }
+
+    @media (max-width: 800px) {
+      #page2 .left {
+        width: 100vw;
+        height: 50vh;
+      }
+
+      .page3-left {
+        width: 100%;
+        height: 50vh;
+        padding-top: 30px;
+      }
+
+      .page3-left .first-img {
+        width: 50%;
+
+      }
+
+      .page3-left .second-img {
+        width: 50%;
+        left: 25%;
+      }
+
+      .page3-left .third-img {
+        width: 50%;
+        left: 40%;
+      }
+
+      #page2 .left .first img {
+        left: 7vh;
+        width: 60%;
+      }
+
+      #page2 .left .second img {
+        left: 1vh;
+        width: 60%;
+      }
+
+      #page2 .left .third img {
+        top: 15%;
+        left: 36vw;
+        width: 60%;
+      }
+
+      #page3-left .first-img {
+        width: 60%;
+      }
+
+      #page2 .right {
+        width: 100vw;
+        height: 50vh;
+      }
+
+      #page3 .page3-right {
+        width: 100%;
+        height: 50vh;
+      }
+
+      #page2 .right .content,
+      .page3-right .cnt {
+        margin: 30% 20%;
+      }
+
+      #page2 .right .content h5,
+      .page3-right .cnt h5 {
+        font-size: 4vw;
+      }
+
+      #about {
+        margin-top: 30px;
+      }
+
+    }
+
