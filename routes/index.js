@@ -304,14 +304,14 @@ router.get("/uploadStuff/:page", isLoggedIn, async function(req,res){
   var user = await userModel.findOne({username:req.session.passport.user});
   // var number = Math.floor(Math.random()*30);
   var total =await imageModel.countDocuments({});
-  var pages = parseFloat(total)/40;
+  var pages = parseFloat(total)/30;
   pages = Math.ceil(pages)
   // console.log(total+ " "+ pages);
   var cur = req.params.page; 
   if(cur>pages)cur = pages;
   if(cur<1)cur =1;
   // var imgs = await imageModel.find().populate("user");
-   var imgs = await imageModel.find().skip((40*cur) - 40).limit(40).populate("user");
+   var imgs = await imageModel.find().skip((30*cur) - 30).limit(30).populate("user");
   //  console.log(imgs);
  res.render("uploaded" , {imgs,user,pages,cur})
 });
@@ -321,7 +321,7 @@ router.get("/getImage/:page", isLoggedIn, async function(req,res){
   var user = await userModel.findOne({username:req.session.passport.user});
   // var number = Math.floor(Math.random()*30);
   var total =await imageModel.countDocuments({});
-  var pages = parseFloat(total)/40;
+  var pages = parseFloat(total)/30;
   pages = Math.ceil(pages)
   // console.log(total+ " "+ pages);
   var cur = req.params.page;
@@ -331,7 +331,7 @@ router.get("/getImage/:page", isLoggedIn, async function(req,res){
   }
  // var imgs = await imageModel.find().populate("user");
   else{
- var imgs = await imageModel.find().skip((40*cur) - 40).limit(40).populate("user");
+ var imgs = await imageModel.find().skip((30*cur) - 30).limit(30).populate("user");
   //  console.log(imgs);}
  res.send({imgs})
 }});
