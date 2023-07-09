@@ -204,6 +204,33 @@ body {
     </div>
   </div>
 
+ <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel" style = "margin-left: auto; ">PicArt</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div >
+            <h1 class = "text-center display-4 my-4">Upload Image</h1>
+            <form action="/upload" method = "post" enctype="multipart/form-data">
+              <div class = "custom-file mb-3">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Choose Single Image</label>
+                  <input class="form-control" type="file" id="file" name="file">
+                  <label for="desc" class = "form-label">Enter descriptive tag</label>
+                  <input class="form-control" type="text" id="desc" name="desc">
+                </div>
+              </div>
+              <input type="submit" value="Upload Image" class = "btn btn-primary btn-block " id="selectbtn" style = "width: 100%;">
+            </form>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
   <div id="main">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid d-flex" style="align-items: center; gap: 40px;">
@@ -218,7 +245,7 @@ body {
         <div class="collapse navbar-collapse nav-clp" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex" style="gap: 7vw;">
             <li class="nav-item mb-1 me-5 pt-2">
-              <a class="hv" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              <a class="hv"  id="uploadbtn" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Upload Image
               </a>
             </li>
