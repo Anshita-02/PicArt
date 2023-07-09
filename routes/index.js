@@ -53,6 +53,7 @@ const storage = new GridFsStorage({
   url:mongooseUrl,
   file:(req,file)=>{
     return new Promise((resolve,reject)=>{
+      if(file.size()==0)return;
       crypto.randomBytes(16,(err,buf)=>{
         if(err){
           return reject(err);
@@ -291,8 +292,10 @@ router.post("/upload", isLoggedIn, upload.single("file"), async function (req, r
     desc:req.body.desc,
     user:user._id,
   })
+   if(img.name==undefined);
+  else{
   user.myUploads.push(img._id);
-  await user.save();
+  await user.save();}
   // console.log(filename);
 
   res.redirect("back");
