@@ -265,3 +265,14 @@
 
     }
 
+@media (max-width:600px) {
+      #page1 .text{
+        top:25%;
+        left: 45%;
+        width: 70%;
+      }
+
+      #page1 .text p{
+        font-size: 6vw;
+      }
+    }
