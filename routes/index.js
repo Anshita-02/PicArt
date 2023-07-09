@@ -121,7 +121,7 @@ passport.use(new GoogleStrategy({
   scope: [ 'email','profile' ]
 }, async function verify(issuer, profile, cb) {
   // console.log(profile);
- var user = await userModel.findOne({email: profile.emails[0].value})
+ var user = await userModel.findOne({username: profile.emails[0].value})
     if(user){
       return cb(null, user);
     }
